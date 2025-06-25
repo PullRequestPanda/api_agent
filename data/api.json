@@ -1,0 +1,187 @@
+[
+  {
+    "name": "获取用户信息",
+    "description": "通过用户ID获取用户的基本信息",
+    "method": "GET",
+    "endpoint": "/api/v1/users/{id}",
+    "params": [
+      {"name": "id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "verbose", "type": "boolean", "required": false, "description": "是否返回详细信息"}
+    ]
+  },
+  {
+    "name": "创建订单",
+    "description": "提交订单接口，包含商品信息和用户信息",
+    "method": "POST",
+    "endpoint": "/api/v1/orders",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "下单用户ID"},
+      {"name": "items", "type": "array", "required": true, "description": "商品列表"}
+    ]
+  },
+  {
+    "name": "获取用户列表",
+    "description": "分页获取用户列表，支持过滤和排序",
+    "method": "GET",
+    "endpoint": "/api/v1/users",
+    "params": [
+      {"name": "page", "type": "integer", "required": false, "description": "页码，默认1"},
+      {"name": "limit", "type": "integer", "required": false, "description": "每页数量，默认20"},
+      {"name": "status", "type": "string", "required": false, "description": "用户状态（active/inactive）"},
+      {"name": "sort", "type": "string", "required": false, "description": "排序字段（如created_at:desc）"}
+    ]
+  },
+  {
+    "name": "更新用户信息",
+    "description": "通过用户ID更新用户的个人信息",
+    "method": "PUT",
+    "endpoint": "/api/v1/users/{id}",
+    "params": [
+      {"name": "id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "email", "type": "string", "required": false, "description": "用户邮箱"},
+      {"name": "phone", "type": "string", "required": false, "description": "用户手机号"}
+    ]
+  },
+  {
+    "name": "获取商品详情",
+    "description": "通过商品ID获取商品的详细信息",
+    "method": "GET",
+    "endpoint": "/api/v1/products/{id}",
+    "params": [
+      {"name": "id", "type": "string", "required": true, "description": "商品ID"},
+      {"name": "with_stock", "type": "boolean", "required": false, "description": "是否返回库存信息"}
+    ]
+  },
+  {
+    "name": "创建商品",
+    "description": "提交商品信息，创建新商品",
+    "method": "POST",
+    "endpoint": "/api/v1/products",
+    "params": [
+      {"name": "name", "type": "string", "required": true, "description": "商品名称"},
+      {"name": "price", "type": "number", "required": true, "description": "商品价格（单位：元）"},
+      {"name": "category_id", "type": "string", "required": true, "description": "商品分类ID"}
+    ]
+  },
+  {
+    "name": "取消订单",
+    "description": "通过订单ID取消已创建的订单",
+    "method": "POST",
+    "endpoint": "/api/v1/orders/{id}/cancel",
+    "params": [
+      {"name": "id", "type": "string", "required": true, "description": "订单ID"},
+      {"name": "reason", "type": "string", "required": false, "description": "取消原因"}
+    ]
+  },
+  {
+    "name": "获取订单列表",
+    "description": "分页获取用户的订单列表",
+    "method": "GET",
+    "endpoint": "/api/v1/users/{user_id}/orders",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "status", "type": "string", "required": false, "description": "订单状态（pending/paid/shipped/completed/canceled）"},
+      {"name": "start_date", "type": "string", "required": false, "description": "开始日期，格式：YYYY-MM-DD"},
+      {"name": "end_date", "type": "string", "required": false, "description": "结束日期，格式：YYYY-MM-DD"}
+    ]
+  },
+  {
+    "name": "获取商品分类列表",
+    "description": "获取所有商品分类的列表",
+    "method": "GET",
+    "endpoint": "/api/v1/categories",
+    "params": [
+      {"name": "parent_id", "type": "string", "required": false, "description": "父分类ID，获取子分类列表"},
+      {"name": "with_products", "type": "boolean", "required": false, "description": "是否返回分类下的商品数量"}
+    ]
+  },
+  {
+    "name": "添加商品到购物车",
+    "description": "将商品添加到用户的购物车",
+    "method": "POST",
+    "endpoint": "/api/v1/carts/{user_id}/items",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "product_id", "type": "string", "required": true, "description": "商品ID"},
+      {"name": "quantity", "type": "integer", "required": true, "description": "商品数量"}
+    ]
+  },
+  {
+    "name": "删除购物车商品",
+    "description": "从用户购物车中删除指定商品",
+    "method": "DELETE",
+    "endpoint": "/api/v1/carts/{user_id}/items/{item_id}",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "item_id", "type": "string", "required": true, "description": "购物车项ID"}
+    ]
+  },
+  {
+    "name": "创建支付",
+    "description": "创建支付订单，获取支付链接",
+    "method": "POST",
+    "endpoint": "/api/v1/payments",
+    "params": [
+      {"name": "order_id", "type": "string", "required": true, "description": "订单ID"},
+      {"name": "payment_method", "type": "string", "required": true, "description": "支付方式（alipay/wechat）"},
+      {"name": "return_url", "type": "string", "required": false, "description": "支付成功后跳转的URL"}
+    ]
+  },
+  {
+    "name": "获取支付状态",
+    "description": "查询支付订单的状态",
+    "method": "GET",
+    "endpoint": "/api/v1/payments/{payment_id}",
+    "params": [
+      {"name": "payment_id", "type": "string", "required": true, "description": "支付ID"}
+    ]
+  },
+  {
+    "name": "添加商品评论",
+    "description": "用户对商品添加评论",
+    "method": "POST",
+    "endpoint": "/api/v1/products/{product_id}/reviews",
+    "params": [
+      {"name": "product_id", "type": "string", "required": true, "description": "商品ID"},
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "rating", "type": "integer", "required": true, "description": "评分（1-5）"},
+      {"name": "content", "type": "string", "required": true, "description": "评论内容"}
+    ]
+  },
+  {
+    "name": "获取用户收货地址",
+    "description": "获取用户的所有收货地址",
+    "method": "GET",
+    "endpoint": "/api/v1/users/{user_id}/addresses",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"}
+    ]
+  },
+  {
+    "name": "更新收货地址",
+    "description": "更新用户的收货地址信息",
+    "method": "PUT",
+    "endpoint": "/api/v1/users/{user_id}/addresses/{address_id}",
+    "params": [
+      {"name": "user_id", "type": "string", "required": true, "description": "用户ID"},
+      {"name": "address_id", "type": "string", "required": true, "description": "地址ID"},
+      {"name": "name", "type": "string", "required": false, "description": "收货人姓名"},
+      {"name": "phone", "type": "string", "required": false, "description": "收货人电话"},
+      {"name": "address", "type": "string", "required": false, "description": "详细地址"}
+    ]
+  },
+  {
+    "name": "解锁用户",
+    "description": "提交邮箱验证码完成账号解锁",
+    "method": "GET",
+    "endpoint": "/172.30.6.50:8000/xiaotian/unlock/{email}",
+    "params": [
+      {
+        "name": "email",
+        "type": "string",
+        "required": true,
+        "description": "用户注册邮箱地址"
+      }
+    ]
+  }
+]
